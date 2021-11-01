@@ -1,0 +1,21 @@
+
+[
+  {
+    "name": "Dino lanches",
+    "description": "Grudao",
+    "category": "Lanchonete",
+    "imageName": "assets/image/dinoLanches.jpg"
+  },
+  {
+    "name": "China Mania",
+    "description": "Comida japonesa",
+    "category": "Restaurante",
+    "imageName": "assets/image/chinaMania.png"
+  },
+  {
+    "name": "Art Chopperia",
+    "description": "Cachaca",
+    "category": "Chopperia",
+    "imageName": "assets/image/artChopperia.jpg"
+  }
+]

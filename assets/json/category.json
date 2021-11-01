@@ -1,0 +1,61 @@
+[
+  {
+    "name": "Mercado",
+    "icon": "assets/category/mercado.png"
+  },
+
+  {
+    "name": "Lanches",
+    "icon": "assets/category/lanche.png"
+  },
+
+  {
+    "name": "Hamburguerias",
+    "icon": "assets/category/hamburgueria.png"
+  },
+
+  {
+    "name": "Restaurantes",
+    "icon": "assets/category/restaurante.png"
+  },
+
+  {
+    "name": "Chopperias",
+    "icon": "assets/category/chopperia.png"
+  },
+
+  {
+    "name": "Pizzarias",
+    "icon": "assets/category/pizza.png"
+  },
+
+  {
+    "name": "Farmacias",
+    "icon": "assets/category/farmacia.png"
+  },
+
+  {
+    "name": "Bebidas",
+    "icon": "assets/category/bebida.png"
+  },
+
+  {
+    "name": "Sobremesas",
+    "icon": "assets/category/sobremesa.png"
+  },
+
+  {
+    "name": "Gelados",
+    "icon": "assets/category/gelado.png"
+  },
+
+  {
+    "name": "Frios",
+    "icon": "assets/category/frios.png"
+  },
+
+  {
+    "name": "Variedades",
+    "icon": "assets/category/variedade.png"
+  }
+]

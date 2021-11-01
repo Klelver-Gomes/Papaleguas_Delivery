@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Hot Dog",
+    "price": 4.00,
+    "description": "Pão, carne moida, ovo de codorna, batata palha",
+    "imageName": "milk.jpg"
+  },
+  {
+    "name": "Misto Quente",
+    "price": 2.50,
+    "description": "Pão de forma, mussarela, presunto",
+    "imageName": "milk.jpg"
+  },
+  {
+    "name": "X-Frango",
+    "price": 6.00,
+    "description": "Pão bola, frango, ovo, bacon",
+    "imageName": "milk.jpg"
+  }
+]
