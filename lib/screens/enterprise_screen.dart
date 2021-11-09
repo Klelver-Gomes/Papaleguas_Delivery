@@ -1,11 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:papaleguas_delivery/components/product_tile.dart';
+import 'package:papaleguas_delivery/model/enterprise_model.dart';
 import 'package:papaleguas_delivery/model/product_model.dart';
+import 'package:papaleguas_delivery/model/util_model.dart';
 import 'package:papaleguas_delivery/services/product_service.dart';
 
 class EnterpriseScreen extends StatefulWidget {
-  const EnterpriseScreen({Key? key}) : super(key: key);
+  ///const EnterpriseScreen({Key? key}) : super(key: key);
+  Enterprise enterprise;
+  EnterpriseScreen({required this.enterprise});
+
 
   @override
   _EnterpriseScreenState createState() => _EnterpriseScreenState();
@@ -16,7 +21,7 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Empresa'),
+        title: Text(widget.enterprise.name),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -37,7 +42,7 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
               width: double.infinity,
               child: Row(
                 children: [
-                  _createContainerLeading('assets/image/papa_leguas.png'),
+                  _createContainerLeading(widget.enterprise.imageName),
                   Expanded(
                     child: Container(
                       child: Column(

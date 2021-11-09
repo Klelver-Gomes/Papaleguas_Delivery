@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         title: 'Papaléguas Delivery',
         theme: ThemeData(
             primaryColor: COLOR_TEXTFIELD,
+            primarySwatch: Colors.indigo,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             iconTheme: IconThemeData(color: COLOR_ICON)),
         home: HomeScreen(),

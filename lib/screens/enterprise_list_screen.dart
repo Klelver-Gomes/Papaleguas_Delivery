@@ -142,7 +142,7 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
                     onTap: () => Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (context) => EnterpriseScreen(),
+                        builder: (context) => EnterpriseScreen(enterprise: enterprise),
                       ),
                     ),
                     child: Container(
