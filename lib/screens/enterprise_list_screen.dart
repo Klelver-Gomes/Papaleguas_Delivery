@@ -39,6 +39,62 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
             )
           ],
         ),
+        drawer: Drawer(
+            child: Column(
+              children: [
+              UserAccountsDrawerHeader(
+                currentAccountPicture: ClipRRect(
+                  clipBehavior: Clip.antiAlias,
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.asset(
+                    'assets/image/iconeUser.png',
+                    fit: BoxFit.cover,
+                    color: Colors.white,
+                  ),
+                ),
+                accountName: Text(
+                  "Nome Usuario",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+                ),
+                accountEmail: Text(
+                  "Email Usuario",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16),
+                ),
+              ),
+              listTileMenu("Perfil", Icon(Icons.account_box, color: Colors.pink, size: 30)),
+              listTileMenu("Pedidos", Icon(Icons.confirmation_num, color: Colors.pink, size: 30)),
+              listTileMenu("Favoritos", Icon(Icons.favorite, color: Colors.pink, size: 30)),
+              listTileMenu("Configurações", Icon(Icons.settings, color: Colors.pink, size: 30)),
+              Divider(height: 2, thickness: 3),
+              listTileMenu("Sair", Icon(Icons.logout, color: Colors.pink, size: 30)),
+            ],
+          )),
+        bottomNavigationBar: BottomAppBar(
+          child: Container(
+            padding: EdgeInsets.all(10),
+            height: 60,
+            color: COLOR_BUTTON,
+            child: Row(
+              children: [
+                Icon(Icons.location_on, color: Colors.white, size: 30),
+                SizedBox(width: 10),
+                Text(
+                  "Endereço do usuario",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20),
+                ),
+              ],
+            ),
+          ),
+        ),
         body: ListView(
           children: [
             BlocBuilder<EnterpriseBloc, bool>(
@@ -52,14 +108,11 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
                         labelText: 'Pesquisa',
                         border: OutlineInputBorder(),
                         prefixIcon: IconButton(
-                          onPressed: () =>
-                              BlocProvider.of<EnterpriseBloc>(context)
-                                  .initSearch(),
+                          onPressed: () => BlocProvider.of<EnterpriseBloc>(context).initSearch(),
                           icon: Icon(Icons.arrow_back),
                         ),
                         suffixIcon: IconButton(
-                          onPressed: () =>
-                              EnterpriseBloc.controllerSearch.clear(),
+                          onPressed: () => EnterpriseBloc.controllerSearch.clear(),
                           icon: Icon(Icons.close),
                         ),
                       ),
@@ -85,7 +138,20 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
             ),
           ],
         ),
+
       ),
+    );
+  }
+
+  Widget listTileMenu(String text, Widget icon) {
+    return ListTile(
+      leading: icon,
+      title: Text(
+        text,
+        style: TextStyle(
+            color: COLOR_BUTTON, fontWeight: FontWeight.bold, fontSize: 22),
+      ),
+      onTap: () {},
     );
   }
 
@@ -106,13 +172,16 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
                           Container(
                             decoration: BoxDecoration(
                               border: Border.all(color: COLOR_BUTTON, width: 3),
-                              borderRadius: BorderRadius.circular(40),
+                              borderRadius: BorderRadius.circular(10),
                             ),
                             height: 70,
                             width: 70,
-                            child: Image.asset(category.icon, scale: 1.5),
+                            child: Image.asset(category.icon, scale: 1.2),
                           ),
-                          Text(category.name, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.pink)),
+                          Text(category.name,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black)),
                         ],
                       ),
                     ),
@@ -131,6 +200,7 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
     return FutureBuilder<List<Enterprise>>(
       future: EnterpriseService.getEnterprise(),
       builder: (context, snapshot) {
+        //print(snapshot.data.toString());
         if (snapshot.hasData) {
           return Wrap(
             runSpacing: 10,
@@ -142,7 +212,8 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
                     onTap: () => Navigator.push(
                       context,
                       CupertinoPageRoute(
-                        builder: (context) => EnterpriseScreen(enterprise: enterprise),
+                        builder: (context) =>
+                            EnterpriseScreen(enterprise: enterprise),
                       ),
                     ),
                     child: Container(
@@ -239,28 +310,4 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
       },
     );
   }
-
-// ListTile(
-// onTap: () {
-// Navigator.push(
-// context,
-// CupertinoPageRoute(
-// builder: (context) => EnterpriseScreen()));
-// },
-//
-// leading: Container(
-// width: 60,
-// height: 60,
-// child: ClipRRect(
-// clipBehavior: Clip.antiAlias,
-// borderRadius: BorderRadius.circular(16),
-// child: Image.asset(
-// 'assets/image/papa_leguas.png',
-// fit: BoxFit.cover,
-// ))),
-// title: Text(enterprise.name),
-// subtitle: Text(enterprise.description),
-// trailing: Text(enterprise.category),
-// );
-//
 }

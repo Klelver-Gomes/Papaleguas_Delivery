@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:papaleguas_delivery/model/product_model.dart';
 
 class Enterprise {
@@ -6,7 +8,7 @@ class Enterprise {
   late String _description;
   late String _category;
   late String _imageName;
-  //late List<Product> _listProducts;
+  //late List<Map<String, dynamic>> _listProducts;
 
 
   Enterprise({
@@ -14,7 +16,7 @@ class Enterprise {
     required String category,
     required String description,
     required String imageName,
-    //required List<Product> products,
+   // required List<Map<String, dynamic>> products,
 
   }) {
     this._name = name;
@@ -36,11 +38,12 @@ class Enterprise {
   String get imageName => _imageName;
   set imageName(String value) => _imageName = value;
 
-  // List<Product> get listProducts => _listProducts;
-  // set listProducts(List<Product> value) => _listProducts = value;
+  // List<Map<String, dynamic>> get listProducts => _listProducts;
+  // set listProducts(List<Map<String, dynamic>> value) => _listProducts = value;
 
 
   factory Enterprise.fromJson(Map<String, dynamic> json) {
+    // print(json['products'].toString());
     return Enterprise(
       name: json['name'],
       category: json['category'],

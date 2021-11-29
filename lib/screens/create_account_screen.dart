@@ -139,6 +139,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                   padding: const EdgeInsets.only(top: 20),
                   child: CircularProgressIndicator(),
                 ),
+              SizedBox(height: 20),
               Row(
                 children: [
                   AppComponent.defaultButton(

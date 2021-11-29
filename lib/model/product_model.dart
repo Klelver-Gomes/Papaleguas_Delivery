@@ -3,7 +3,7 @@ class Product {
   late double _price;
   late String _description;
   late String _imageName;
-
+  late int _qtd;
 
   Product({
     required String nome,
@@ -16,6 +16,7 @@ class Product {
     this._price = price;
     this._description = description;
     this._imageName = imageName;
+    this._qtd = 0;
   }
 
   String get name => _name;
@@ -29,6 +30,9 @@ class Product {
 
   String get imageName => _imageName;
   set imageName(String value) => _imageName = value;
+
+  int get qtd => _qtd;
+  set qtd(int value) => _qtd = value;
 
 
   factory Product.fromJson(Map<String, dynamic> json) {

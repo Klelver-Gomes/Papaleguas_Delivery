@@ -4,18 +4,72 @@
     "name": "Dino lanches",
     "description": "Grudao",
     "category": "Lanchonete",
-    "imageName": "assets/image/dinoLanches.jpg"
+    "imageName": "assets/image/dinoLanches.jpg",
+    "products": [{
+      "name": "Hot Dog",
+      "price": 4.00,
+      "description": "Pão, carne moida, ovo de codorna, batata palha",
+      "imageName": "milk.jpg"
+    },
+      {
+        "name": "Misto Quente",
+        "price": 2.50,
+        "description": "Pão de forma, mussarela, presunto",
+        "imageName": "milk.jpg"
+      },
+      {
+        "name": "X-Frango",
+        "price": 6.00,
+        "description": "Pão bola, frango, ovo, bacon",
+        "imageName": "milk.jpg"
+      }]
   },
   {
     "name": "China Mania",
     "description": "Comida japonesa",
     "category": "Restaurante",
-    "imageName": "assets/image/chinaMania.png"
+    "imageName": "assets/image/chinaMania.png",
+    "products": [{
+      "name": "Yakimeshi de carne",
+      "price": 25.00,
+      "description": "Arroz temperado ao molho de carne, carne",
+      "imageName": "milk.jpg"
+    },
+      {
+        "name": "Carne com batata",
+        "price": 20.00,
+        "description": "Carne, batata, brocolis, verduras e legumes",
+        "imageName": "milk.jpg"
+      },
+      {
+        "name": "Sushi - KG",
+        "price": 12.00,
+        "description": "Variedades em sushi - doces e salgados",
+        "imageName": "milk.jpg"
+      }]
   },
   {
     "name": "Art Chopperia",
     "description": "Cachaca",
     "category": "Chopperia",
-    "imageName": "assets/image/artChopperia.jpg"
+    "imageName": "assets/image/artChopperia.jpg",
+    "products": [{
+      "name": "Picanha argentina",
+      "price": 54.00,
+      "description": "Picanha, molho especial",
+      "imageName": "milk.jpg"
+    },
+      {
+        "name": "Pastel de forno - 10 uni",
+        "price": 15.00,
+        "description": "Frango, carne ou queijo",
+        "imageName": "milk.jpg"
+      },
+      {
+        "name": "Bolinha de queijo",
+        "price": 12.00,
+        "description": "Massa de forno e queijo, acompanha molho",
+        "imageName": "milk.jpg"
+      }]
   }
 ]

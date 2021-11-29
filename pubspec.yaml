@@ -33,6 +33,7 @@ dependencies:
   firebase_auth: ^3.1.1
   cloud_firestore: ^2.5.2
   mask_text_input_formatter: ^2.0.0
+  fluttertoast: ^8.0.7
 
 dev_dependencies:
   flutter_test:

@@ -11,7 +11,7 @@ class AppComponent {
     Function? function,
     VoidCallback? voidCallback}) {
     return Padding(
-      padding: EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: 0),
       child: ButtonTheme(
         minWidth: 20,
         height: 45,

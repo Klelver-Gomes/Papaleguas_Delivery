@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:papaleguas_delivery/blocs/cart_bloc.dart';
 import 'package:papaleguas_delivery/components/product_tile.dart';
 import 'package:papaleguas_delivery/model/enterprise_model.dart';
 import 'package:papaleguas_delivery/model/product_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
 import 'package:papaleguas_delivery/services/product_service.dart';
 
+import 'cart_screen.dart';
+
 class EnterpriseScreen extends StatefulWidget {
-  ///const EnterpriseScreen({Key? key}) : super(key: key);
+  //const EnterpriseScreen({Key? key}) : super(key: key);
   Enterprise enterprise;
   EnterpriseScreen({required this.enterprise});
 
@@ -17,6 +21,7 @@ class EnterpriseScreen extends StatefulWidget {
 }
 
 class _EnterpriseScreenState extends State<EnterpriseScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,8 +107,42 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-          onPressed: () {}, child: Icon(Icons.shopping_cart)),
+      floatingActionButton: Stack(
+        children: [
+          Container(
+            padding: EdgeInsets.only(top: 10),
+            height: 70,
+            child: FloatingActionButton(
+                onPressed: () {
+                  Navigator.push(context, CupertinoPageRoute(builder: (context) => CartScreen()));
+                }, child: Icon(Icons.shopping_cart)),
+          ),
+          Positioned(
+            right: 0,
+            top: 0,
+            child: BlocBuilder<CartBloc, List<Product>>(
+                builder: (context, state) {
+                int qtd = state.length;
+                return qtd == 0? Container(): Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(50),
+                    color: Colors.red,
+                  ),
+                  width: 28,
+                  height: 28,
+                  child: Center(
+                    child: Text(qtd.toString(), style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      fontSize: 15.5,
+                    ),),
+                  ),
+                );
+              }
+            ),
+          ),
+        ],
+      ),
     );
   }
 

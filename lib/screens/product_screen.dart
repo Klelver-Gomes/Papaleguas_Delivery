@@ -1,12 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:papaleguas_delivery/blocs/cart_bloc.dart';
 import 'package:papaleguas_delivery/model/product_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import 'cart_screen.dart';
 
 class ProductScreen extends StatefulWidget {
   //const ProductScreen({Key? key}) : super(key: key);
   Product product;
-
   ProductScreen({required this.product});
 
   @override
@@ -30,38 +34,35 @@ class _ProductScreenState extends State<ProductScreen> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                decoration: BoxDecoration(color: Colors.white, boxShadow: [
-                  BoxShadow(
-                    blurRadius: 0,
-                  ),
-                ]),
-                //width: double.infinity,
-                height: 70,
+                decoration: BoxDecoration(color: Colors.white,
+                    boxShadow: [BoxShadow(blurRadius: 0),],
+                ),
+
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    SizedBox(width: 10),
                     Row(
                       children: [
                         InkWell(
                             child:
-                            Icon(Icons.add_box, color: COLOR_BUTTON, size: 50),
+                            Icon(Icons.add_box, color: COLOR_BUTTON, size: 45),
                             onTap: () {
                               setState(() {
                                 _count++;
                               });
                             }),
                         SizedBox(width: 15),
-                        Text(
-                          _count.toString(),
+                        Text(_count.toString(),
                           style: TextStyle(
                               color: Colors.black,
-                              fontSize: 40),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 35),
                         ),
                         SizedBox(width: 15),
                         InkWell(
                           child: Icon(Icons.remove_circle_sharp,
-                              color: COLOR_BUTTON, size: 50),
+                              color: COLOR_BUTTON, size: 45),
                           onTap: () {
                             if (_count > 1)
                               setState(() {
@@ -71,24 +72,42 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                       ],
                     ),
+
                     ElevatedButton(
-                        onPressed: () {},
-                        style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.only(top: 12, bottom: 12, left: 10, right: 10)),
+                        onPressed: () async {
+                          Fluttertoast.cancel();
+                          Fluttertoast.showToast(
+                              msg: "Produto adicionado ao carrinho...",
+                              toastLength: Toast.LENGTH_SHORT,
+                              gravity: ToastGravity.CENTER,
+                              backgroundColor: Colors.grey,
+                              textColor: Colors.white,
+                              fontSize: 16.0
+                          );
+                          widget.product.qtd = _count;
+                          BlocProvider.of<CartBloc>(context).addProduct(product: widget.product);
+                        },
+                        style: ButtonStyle(padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.only(top: 13,
+                            bottom: 15,
+                            left: 20,
+                            right: 20)),
                             backgroundColor: MaterialStateProperty.all<Color>(COLOR_BUTTON),
                             shape: MaterialStateProperty.all<
-                                    RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(40)))),
+                                    borderRadius: BorderRadius.circular(0)))),
 
-                        child: Text('Adicionar   -   ' + 'R\$' + (widget.product.price*_count).toStringAsFixed(2),
+                        child: Text('ADICIONAR   -   ' + 'R\$' + (widget.product.price*_count).toStringAsFixed(2),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 24,
-                                color: Colors.white))),
+                                color: Colors.white,))),
                   ],
                 ),
               ),
             ),
+
+
             Positioned(
               top: 0,
               left: 0,

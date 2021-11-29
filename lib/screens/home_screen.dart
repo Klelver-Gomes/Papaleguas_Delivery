@@ -41,14 +41,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     Container(
-                      margin:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       child: Center(
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
                               TextFieldsLogin(),
                               if (_isLoading) CircularProgressIndicator(),
+                              SizedBox(height: 20),
                               AppComponent.defaultButton(
                                 text: 'Entrar',
                                 colorButton: COLOR_BUTTON,
@@ -72,6 +72,23 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }
                                 },
                               ),
+                              SizedBox(height: 20),
+                              InkWell(
+                                onTap: () => Navigator.pushAndRemoveUntil(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (context) => CreateAccountScreen()),
+                                      (route) => false,
+                                ),
+                                child: Text(
+                                  "Esqueceu a senha?",
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                      ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -83,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text(
                           "Sua primeira vez aqui? ",
-                          style: TextStyle(fontSize: 20, color: Colors.black),
+                          style: TextStyle(fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold),
                         ),
                         InkWell(
                           onTap: () => Navigator.pushAndRemoveUntil(
@@ -97,6 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(
                                 fontSize: 22,
                                 color: COLOR_BUTTON,
+                                fontWeight: FontWeight.bold,
                                 decoration: TextDecoration.underline),
                           ),
                         ),

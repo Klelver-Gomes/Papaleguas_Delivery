@@ -11,4 +11,6 @@ class EnterpriseService{
     List<dynamic> enterprisesData = jsonDecode(enterpriseData);
     return enterprisesData.map( (json) => Enterprise.fromJson(json)).toList();
   }
+
+
 }
