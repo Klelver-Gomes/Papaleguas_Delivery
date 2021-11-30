@@ -69,6 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller:
                               TextEditingController(text: widget.user.fullName),
                           decoration: InputDecoration(
@@ -79,6 +80,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 10),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller:
                               TextEditingController(text: widget.user.cpf),
                           decoration: InputDecoration(
@@ -90,6 +92,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 10),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller:
                               TextEditingController(text: widget.user.phone),
                           decoration: InputDecoration(
@@ -101,6 +104,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 10),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller:
                               TextEditingController(text: widget.user.birthDate),
                           decoration: InputDecoration(
@@ -141,6 +145,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ],
                         ),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller: TextEditingController(
                               text: widget.user.address.street),
                           decoration: InputDecoration(
@@ -151,6 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 10),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller: TextEditingController(
                               text: widget.user.address.district),
                           decoration: InputDecoration(
@@ -161,6 +167,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 10),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller: TextEditingController(
                               text: widget.user.address.number.toString()),
                           decoration: InputDecoration(
@@ -171,6 +178,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 10),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller: TextEditingController(
                               text: widget.user.address.city),
                           decoration: InputDecoration(
@@ -181,6 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         SizedBox(height: 10),
                         TextField(
+                          textInputAction: TextInputAction.go,
                           controller: TextEditingController(
                               text: widget.user.address.state),
                           decoration: InputDecoration(

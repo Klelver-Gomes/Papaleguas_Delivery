@@ -78,8 +78,7 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
             //listTileMenu("Favoritos", Icon(Icons.favorite, color: Colors.pink, size: 30)),
             listTileMenu("Configurações", Icon(Icons.settings, color: Colors.pink, size: 30)),
             Divider(height: 2, thickness: 3),
-            listTileMenu("Sair",
-                Icon(Icons.logout, color: Colors.pink, size: 30), HomeScreen()),
+            listTileMenu("Sair", Icon(Icons.logout, color: Colors.pink, size: 30), HomeScreen()),
           ],
         )),
         bottomNavigationBar: BottomAppBar(
