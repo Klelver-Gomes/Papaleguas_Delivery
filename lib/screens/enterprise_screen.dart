@@ -13,15 +13,14 @@ import 'cart_screen.dart';
 class EnterpriseScreen extends StatefulWidget {
   //const EnterpriseScreen({Key? key}) : super(key: key);
   Enterprise enterprise;
-  EnterpriseScreen({required this.enterprise});
 
+  EnterpriseScreen({required this.enterprise});
 
   @override
   _EnterpriseScreenState createState() => _EnterpriseScreenState();
 }
 
 class _EnterpriseScreenState extends State<EnterpriseScreen> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +42,7 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
                 borderRadius: BorderRadius.circular(20),
                 color: Colors.white,
               ),
-              height: 170,
+              height: 200,
               width: double.infinity,
               child: Row(
                 children: [
@@ -54,29 +53,62 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            'ABERTO',
-                            style: TextStyle(
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.green),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                widget.enterprise.getDiffHour()? "Fechado".toUpperCase()
+                                    : widget.enterprise.status.toUpperCase(),
+                                style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                    color: widget.enterprise.getDiffHour()? Colors.red: Colors.green),
+                              ),
+
+                              Icon(Icons.favorite_border,
+                                  color: Colors.red, size: 40),
+                            ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text('Encerra às: 22:30', style: TextStyle(fontSize: 16),),
+                              Text(
+                                'Encerra às: ' + widget.enterprise.hourCloser,
+                                style: TextStyle(fontSize: 18),
+                              ),
                               Row(
                                 children: [
-                                  Icon(Icons.star, color: Colors.yellow.shade700,),
-                                  Text('4,8', style: TextStyle(fontSize: 16, color: Colors.yellow.shade700, fontWeight: FontWeight.bold),),
+                                  Icon(
+                                    Icons.star,
+                                    color: Colors.yellow.shade700,
+                                  ),
+                                  Text(
+                                    widget.enterprise.avaliation
+                                        .toStringAsFixed(1),
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        color: Colors.yellow.shade700,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ],
-                              )
+                              ),
                             ],
                           ),
                           Divider(height: 3, thickness: 2),
-                          Text('Pedido Minimo: ', style: TextStyle(fontSize: 16),),
+                          Text(
+                            'Pedido Minimo:  R\$' +
+                                widget.enterprise.requestMin.toStringAsFixed(2),
+                            style: TextStyle(fontSize: 18),
+                          ),
                           Divider(height: 3, thickness: 2),
-                          Text('Entrega: ', style: TextStyle(fontSize: 16),),
+                          Text(
+                            'Entrega:  R\$' +
+                                widget.enterprise.valueDelivery
+                                    .toStringAsFixed(2) +
+                                "  -  " +
+                                widget.enterprise.timeDelivery,
+                            style: TextStyle(fontSize: 18),
+                          ),
                           Divider(height: 3, thickness: 2),
                         ],
                       ),
@@ -87,11 +119,12 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
             ),
             Expanded(
                 child: FutureBuilder<List<Product>>(
-                future: ProductService.getProducts(),
-                builder: (context, snapshot) {
+              future: ProductService.getProducts(),
+              builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.separated(
-                      separatorBuilder: (context, index) => Divider(height: 2, thickness: 2),
+                      separatorBuilder: (context, index) =>
+                          Divider(height: 2, thickness: 2),
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         Product product = snapshot.data![index];
@@ -114,32 +147,38 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
             height: 70,
             child: FloatingActionButton(
                 onPressed: () {
-                  Navigator.push(context, CupertinoPageRoute(builder: (context) => CartScreen()));
-                }, child: Icon(Icons.shopping_cart)),
+                  Navigator.push(context,
+                      CupertinoPageRoute(builder: (context) => CartScreen()));
+                },
+                child: Icon(Icons.shopping_cart)),
           ),
           Positioned(
             right: 0,
             top: 0,
-            child: BlocBuilder<CartBloc, List<Product>>(
-                builder: (context, state) {
-                int qtd = state.length;
-                return qtd == 0? Container(): Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(50),
-                    color: Colors.red,
-                  ),
-                  width: 28,
-                  height: 28,
-                  child: Center(
-                    child: Text(qtd.toString(), style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      fontSize: 15.5,
-                    ),),
-                  ),
-                );
-              }
-            ),
+            child:
+                BlocBuilder<CartBloc, List<Product>>(builder: (context, state) {
+              int qtd = state.length;
+              return qtd == 0
+                  ? Container()
+                  : Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: Colors.red,
+                      ),
+                      width: 28,
+                      height: 28,
+                      child: Center(
+                        child: Text(
+                          qtd.toString(),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 15.5,
+                          ),
+                        ),
+                      ),
+                    );
+            }),
           ),
         ],
       ),
@@ -159,8 +198,8 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
               BoxShadow(color: Colors.black12, blurRadius: 10),
             ],
           ),
-          width: 100,
-          height: 100,
+          width: 120,
+          height: 120,
           child: Image.asset(image, fit: BoxFit.fill),
         ),
       ],

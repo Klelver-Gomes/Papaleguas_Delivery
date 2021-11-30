@@ -8,13 +8,19 @@ import 'package:papaleguas_delivery/constants/categories.dart';
 import 'package:papaleguas_delivery/model/category_model.dart';
 import 'package:papaleguas_delivery/model/enterprise_model.dart';
 import 'package:papaleguas_delivery/model/product_model.dart';
+import 'package:papaleguas_delivery/model/user_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
 import 'package:papaleguas_delivery/screens/enterprise_screen.dart';
+import 'package:papaleguas_delivery/screens/home_screen.dart';
+import 'package:papaleguas_delivery/screens/profile_screen.dart';
 import 'package:papaleguas_delivery/services/category_service.dart';
 import 'package:papaleguas_delivery/services/enterprise_service.dart';
 
 class EnterpriseListScreen extends StatefulWidget {
-  const EnterpriseListScreen({Key? key}) : super(key: key);
+  //const EnterpriseListScreen({Key? key}) : super(key: key);
+  UserModel? user;
+
+  EnterpriseListScreen({this.user});
 
   @override
   _EnterpriseListScreenState createState() => _EnterpriseListScreenState();
@@ -41,51 +47,60 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
         ),
         drawer: Drawer(
             child: Column(
-              children: [
-              UserAccountsDrawerHeader(
-                currentAccountPicture: ClipRRect(
-                  clipBehavior: Clip.antiAlias,
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.asset(
-                    'assets/image/iconeUser.png',
-                    fit: BoxFit.cover,
-                    color: Colors.white,
-                  ),
+          children: [
+            UserAccountsDrawerHeader(
+              currentAccountPicture: ClipRRect(
+                clipBehavior: Clip.antiAlias,
+                borderRadius: BorderRadius.circular(16),
+                child: Image.asset(
+                  'assets/image/iconeUser.png',
+                  fit: BoxFit.cover,
+                  color: Colors.white,
                 ),
-                accountName: Text(
-                  "Nome Usuario",
-                  style: TextStyle(
+              ),
+              accountName: Text(
+                widget.user != null ? widget.user!.fullName : "Usuario",
+                style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 20),
-                ),
-                accountEmail: Text(
-                  "Email Usuario",
-                  style: TextStyle(
+              ),
+              accountEmail: Text(
+                widget.user != null ? widget.user!.email : "Email do usuario",
+                style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 16),
-                ),
               ),
-              listTileMenu("Perfil", Icon(Icons.account_box, color: Colors.pink, size: 30)),
-              listTileMenu("Pedidos", Icon(Icons.confirmation_num, color: Colors.pink, size: 30)),
-              listTileMenu("Favoritos", Icon(Icons.favorite, color: Colors.pink, size: 30)),
-              listTileMenu("Configurações", Icon(Icons.settings, color: Colors.pink, size: 30)),
-              Divider(height: 2, thickness: 3),
-              listTileMenu("Sair", Icon(Icons.logout, color: Colors.pink, size: 30)),
-            ],
-          )),
+            ),
+            listTileMenu("Perfil", Icon(Icons.account_box, color: Colors.pink, size: 30), ProfileScreen(user: widget.user!)),
+            //listTileMenu("Pedidos", Icon(Icons.confirmation_num, color: Colors.pink, size: 30)),
+            //listTileMenu("Favoritos", Icon(Icons.favorite, color: Colors.pink, size: 30)),
+            listTileMenu("Configurações", Icon(Icons.settings, color: Colors.pink, size: 30)),
+            Divider(height: 2, thickness: 3),
+            listTileMenu("Sair",
+                Icon(Icons.logout, color: Colors.pink, size: 30), HomeScreen()),
+          ],
+        )),
         bottomNavigationBar: BottomAppBar(
           child: Container(
             padding: EdgeInsets.all(10),
-            height: 60,
+            height: 65,
             color: COLOR_BUTTON,
             child: Row(
               children: [
                 Icon(Icons.location_on, color: Colors.white, size: 30),
                 SizedBox(width: 10),
                 Text(
-                  "Endereço do usuario",
+                  widget.user != null
+                      ? widget.user!.address.street +
+                          ", " +
+                          widget.user!.address.number.toString() +
+                          ", " +
+                          widget.user!.address.district +
+                          "\n" +
+                          widget.user!.address.city + "-" + widget.user!.address.state
+                      : "Endereço do usuario",
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -108,11 +123,14 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
                         labelText: 'Pesquisa',
                         border: OutlineInputBorder(),
                         prefixIcon: IconButton(
-                          onPressed: () => BlocProvider.of<EnterpriseBloc>(context).initSearch(),
+                          onPressed: () =>
+                              BlocProvider.of<EnterpriseBloc>(context)
+                                  .initSearch(),
                           icon: Icon(Icons.arrow_back),
                         ),
                         suffixIcon: IconButton(
-                          onPressed: () => EnterpriseBloc.controllerSearch.clear(),
+                          onPressed: () =>
+                              EnterpriseBloc.controllerSearch.clear(),
                           icon: Icon(Icons.close),
                         ),
                       ),
@@ -138,12 +156,11 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
             ),
           ],
         ),
-
       ),
     );
   }
 
-  Widget listTileMenu(String text, Widget icon) {
+  Widget listTileMenu(String text, Widget icon, Widget screen) {
     return ListTile(
       leading: icon,
       title: Text(
@@ -151,7 +168,10 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
         style: TextStyle(
             color: COLOR_BUTTON, fontWeight: FontWeight.bold, fontSize: 22),
       ),
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+            context, CupertinoPageRoute(builder: (context) => screen));
+      },
     );
   }
 
@@ -282,7 +302,7 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
                                               size: 18,
                                             ),
                                             Text(
-                                              '4,8',
+                                              enterprise.avaliation.toString(),
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   color: Colors.amber.shade700,

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:papaleguas_delivery/blocs/user_bloc.dart';
 import 'package:papaleguas_delivery/components/app_component.dart';
 import 'package:papaleguas_delivery/components/textFieldsLogin.dart';
+import 'package:papaleguas_delivery/model/address_model.dart';
+import 'package:papaleguas_delivery/model/user_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
 import 'create_account_screen.dart';
 import 'enterprise_list_screen.dart';
@@ -41,7 +43,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     SizedBox(height: 20),
                     Container(
-                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                      margin:
+                          EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                       child: Center(
                         child: SingleChildScrollView(
                           child: Column(
@@ -53,7 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 text: 'Entrar',
                                 colorButton: COLOR_BUTTON,
                                 function: () async {
-                                  if(UserBloc.formKey.currentState != null && UserBloc.formKey.currentState!.validate()){
+                                  if (UserBloc.formKey.currentState != null &&
+                                      UserBloc.formKey.currentState!
+                                          .validate()) {
                                     setState(() => _isLoading = true);
                                     await Future.delayed(Duration(seconds: 2))
                                         .then((value) async {
@@ -61,12 +66,26 @@ class _HomeScreenState extends State<HomeScreen> {
                                       await AppComponent.showAlertMensage(
                                           text: 'Login realizado com sucesso',
                                           context: context);
+                                      UserModel user = UserModel(
+                                        fullName: "Klelver Gomes",
+                                        cpf: "11415529493",
+                                        phone: "83993123416",
+                                        birthDate: "23021995",
+                                        email: "klelver@net.com",
+                                        password: "12345678",
+                                        address: AddressModel(
+                                            street: "Projetada",
+                                            district: "Por do sol",
+                                            number: 140,
+                                            city: "Cajazeiras",
+                                            state: "PB"),
+                                      );
                                       Navigator.pushAndRemoveUntil(
                                         context,
                                         CupertinoPageRoute(
                                             builder: (context) =>
-                                                EnterpriseListScreen()),
-                                            (route) => false,
+                                                EnterpriseListScreen(user: user)),
+                                        (route) => false,
                                       );
                                     });
                                   }
@@ -77,16 +96,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 onTap: () => Navigator.pushAndRemoveUntil(
                                   context,
                                   CupertinoPageRoute(
-                                      builder: (context) => CreateAccountScreen()),
-                                      (route) => false,
+                                      builder: (context) =>
+                                          CreateAccountScreen()),
+                                  (route) => false,
                                 ),
                                 child: Text(
                                   "Esqueceu a senha?",
                                   style: TextStyle(
-                                      fontSize: 20,
-                                      color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                      ),
+                                    fontSize: 20,
+                                    color: Colors.black,
+                                    //fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ],
@@ -100,7 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Text(
                           "Sua primeira vez aqui? ",
-                          style: TextStyle(fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black,
+                              fontWeight: FontWeight.bold),
                         ),
                         InkWell(
                           onTap: () => Navigator.pushAndRemoveUntil(

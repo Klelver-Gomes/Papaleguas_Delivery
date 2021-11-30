@@ -1,17 +1,17 @@
-class Address {
+class AddressModel {
   late String _city;
   late String _street;
   late String _district;
   late int _number;
   late String _state;
 
-  Address({
+  AddressModel({
     String? city,
     String? street,
     String? district,
     int? number,
     String? state,
-    String? country,
+    //String? country,
   })
   {
     this._city = city ?? "";

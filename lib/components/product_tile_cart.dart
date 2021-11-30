@@ -8,7 +8,6 @@ import 'package:papaleguas_delivery/screens/product_screen.dart';
 
 class ProductTileCart extends StatefulWidget {
   Product product;
-
   ProductTileCart({required this.product});
 
   @override
@@ -49,7 +48,7 @@ class _ProductTileCartState extends State<ProductTileCart> {
           ),
           IconButton(icon: Icon(Icons.edit, color: COLOR_BUTTON), onPressed: (){
             BlocProvider.of<CartBloc>(context).removeProduct(product: widget.product);
-          }, tooltip: 'Remover', constraints: BoxConstraints(maxWidth: 30)),
+          }, tooltip: 'Editar', constraints: BoxConstraints(maxWidth: 30)),
         ],
       ),
       title: Text(widget.product.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),),

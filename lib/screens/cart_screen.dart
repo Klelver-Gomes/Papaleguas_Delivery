@@ -209,13 +209,10 @@ class _CartScreenState extends State<CartScreen> {
                   SizedBox(width: 10),
                   ElevatedButton(
                       onPressed: () async {
-                        Fluttertoast.showToast(
-                            msg: "Pedido realizado com sucesso!!!",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.CENTER,
-                            backgroundColor: Colors.grey,
-                            textColor: Colors.white,
-                            fontSize: 16.0);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: Duration(seconds: 1),
+                            content: Text('Pedido realizado!!!', style: TextStyle(fontSize: 25)),
+                            backgroundColor: Colors.green));
                       },
                       style: ButtonStyle(
                           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.only(

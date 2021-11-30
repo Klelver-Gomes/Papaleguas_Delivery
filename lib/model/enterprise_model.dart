@@ -8,14 +8,25 @@ class Enterprise {
   late String _description;
   late String _category;
   late String _imageName;
+  late String _status;
+  late String _hourCloser;
+  late double _avaliation;
+  late double _valueDelivery;
+  late String _timeDelivery;
+  late double _requestMin;
   //late List<Map<String, dynamic>> _listProducts;
-
 
   Enterprise({
     required String name,
     required String category,
     required String description,
     required String imageName,
+    required String status,
+    required String hourCloser,
+    required double avaliation,
+    required double valueDelivery,
+    required String timeDelivery,
+    required double requestMin,
    // required List<Map<String, dynamic>> products,
 
   }) {
@@ -23,6 +34,12 @@ class Enterprise {
     this._category = category;
     this._description = description;
     this._imageName = imageName;
+    this._status = status;
+    this._hourCloser = hourCloser;
+    this._avaliation = avaliation;
+    this._valueDelivery = valueDelivery;
+    this._timeDelivery = timeDelivery;
+    this._requestMin = requestMin;
     //this._listProducts = products;
   }
 
@@ -38,6 +55,35 @@ class Enterprise {
   String get imageName => _imageName;
   set imageName(String value) => _imageName = value;
 
+  double get requestMin => _requestMin;
+  set requestMin(double value) => _requestMin = value;
+
+  String get status => _status;
+  set status(String value) => _status = value;
+
+  String get hourCloser => _hourCloser;
+  set hourCloser(String value) =>  _hourCloser = value;
+
+  double get avaliation => _avaliation;
+  set avaliation(double value) =>  _avaliation = value;
+
+  double get valueDelivery => _valueDelivery;
+  set valueDelivery(double value) => _valueDelivery = value;
+
+  String get timeDelivery => _timeDelivery;
+  set timeDelivery(String value) => _timeDelivery = value;
+
+  bool getDiffHour(){
+    int hour = int.parse(this.hourCloser.split(":")[0]);
+    int minute = int.parse(this.hourCloser.split(":")[1]);
+    int hourNow = DateTime.now().hour;
+    int minuteNow = DateTime.now().minute;
+    if(hourNow >= hour && minuteNow >= minute){
+      return true;
+    }
+    return false;
+  }
+
   // List<Map<String, dynamic>> get listProducts => _listProducts;
   // set listProducts(List<Map<String, dynamic>> value) => _listProducts = value;
 
@@ -49,8 +95,15 @@ class Enterprise {
       category: json['category'],
       description: json['description'],
       imageName: json['imageName'],
+      status: json['status'],
+      hourCloser: json['hourCloser'],
+      avaliation: json['avaliation'],
+      valueDelivery: json['valueDelivery'],
+      timeDelivery: json['timeDelivery'],
+      requestMin: json['requestMin'],
       //products: json['products'],
     );
   }
+
 
 }

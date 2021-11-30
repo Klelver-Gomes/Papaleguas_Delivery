@@ -75,15 +75,10 @@ class _ProductScreenState extends State<ProductScreen> {
 
                     ElevatedButton(
                         onPressed: () async {
-                          Fluttertoast.cancel();
-                          Fluttertoast.showToast(
-                              msg: "Produto adicionado ao carrinho...",
-                              toastLength: Toast.LENGTH_SHORT,
-                              gravity: ToastGravity.CENTER,
-                              backgroundColor: Colors.grey,
-                              textColor: Colors.white,
-                              fontSize: 16.0
-                          );
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              duration: Duration(seconds: 2),
+                              content: Text('Produto adicionado ao carrinho...', style: TextStyle(fontSize: 25),),
+                              backgroundColor: Colors.green));
                           widget.product.qtd = _count;
                           BlocProvider.of<CartBloc>(context).addProduct(product: widget.product);
                         },

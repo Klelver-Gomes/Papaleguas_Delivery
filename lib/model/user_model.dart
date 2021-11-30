@@ -9,7 +9,7 @@ class UserModel {
   late String _phone;
   late String _cpf;
   late String _birthDate;
-  late Address _address;
+  late AddressModel _address;
 
   @override
   String toString() {
@@ -23,7 +23,7 @@ class UserModel {
     String? phone,
     String? cpf,
     String? birthDate,
-    Address? address,
+    AddressModel? address,
   }){
     this._email = email ?? "";
     this._password = password ?? "";
@@ -31,7 +31,7 @@ class UserModel {
     this._phone = phone ?? "";
     this._cpf = cpf ?? "";
     this._birthDate = birthDate ?? "";
-    this._address = address ?? Address();
+    this._address = address ?? AddressModel();
   }
 
   String get key => _password;
@@ -49,8 +49,8 @@ class UserModel {
   String get birthDate => _birthDate;
   set birthDate(String value) => _birthDate = value;
 
-  Address get address => _address;
-  set address(Address value) => _address = value;
+  AddressModel get address => _address;
+  set address(AddressModel value) => _address = value;
 
   String get email => _email;
   set email(String value) => _email = value;

@@ -37,7 +37,7 @@ class UserBloc {
       phone: phone,
       email: email,
       password: password,
-      address: Address(
+      address: AddressModel(
         street: street,
         district: district,
         number: int.parse(number),
