@@ -34,8 +34,8 @@ class UserModel {
     this._address = address ?? AddressModel();
   }
 
-  String get key => _password;
-  set key(String value) => _password = value;
+  String get password => _password;
+  set password(String value) => _password = value;
 
   String get fullName => _fullName;
   set fullName(String value) => _fullName = value;

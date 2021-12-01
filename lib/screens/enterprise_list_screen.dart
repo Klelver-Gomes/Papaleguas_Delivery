@@ -13,6 +13,7 @@ import 'package:papaleguas_delivery/model/util_model.dart';
 import 'package:papaleguas_delivery/screens/enterprise_screen.dart';
 import 'package:papaleguas_delivery/screens/home_screen.dart';
 import 'package:papaleguas_delivery/screens/profile_screen.dart';
+import 'package:papaleguas_delivery/screens/settings_screen.dart';
 import 'package:papaleguas_delivery/services/category_service.dart';
 import 'package:papaleguas_delivery/services/enterprise_service.dart';
 
@@ -35,6 +36,7 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('Estabelecimentos'),
           actions: [
             IconButton(
@@ -46,41 +48,58 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
           ],
         ),
         drawer: Drawer(
-            child: Column(
-          children: [
-            UserAccountsDrawerHeader(
-              currentAccountPicture: ClipRRect(
-                clipBehavior: Clip.antiAlias,
-                borderRadius: BorderRadius.circular(16),
-                child: Image.asset(
-                  'assets/image/iconeUser.png',
-                  fit: BoxFit.cover,
-                  color: Colors.white,
+            child: Stack(
+              children: [
+                Column(
+                  children: [
+                    UserAccountsDrawerHeader(
+                      currentAccountPicture: ClipRRect(
+                        clipBehavior: Clip.antiAlias,
+                        borderRadius: BorderRadius.circular(16),
+                        child: Image.asset(
+                          'assets/image/iconeUser.png',
+                          fit: BoxFit.cover,
+                          color: Colors.white,
+                        ),
+                      ),
+                      accountName: Text(
+                        widget.user != null ? widget.user!.fullName : "Usuario",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      ),
+                      accountEmail: Text(
+                        widget.user != null ? widget.user!.email : "Email do usuario",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16),
+                      ),
+                    ),
+                    listTileMenu("Perfil", Icon(Icons.account_box, color: Colors.pink, size: 30), ProfileScreen(user: widget.user!)),
+                    //listTileMenu("Pedidos", Icon(Icons.confirmation_num, color: Colors.pink, size: 30)),
+                    //listTileMenu("Favoritos", Icon(Icons.favorite, color: Colors.pink, size: 30)),
+                    listTileMenu("Configurações",Icon(Icons.settings, color: Colors.pink, size: 30),SettingsScreen(user: widget.user!)),
+                    Divider(height: 2, thickness: 3),
+                    listTileMenu("Sair", Icon(Icons.logout, color: Colors.pink, size: 30), HomeScreen()),
+                  ],
                 ),
-              ),
-              accountName: Text(
-                widget.user != null ? widget.user!.fullName : "Usuario",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20),
-              ),
-              accountEmail: Text(
-                widget.user != null ? widget.user!.email : "Email do usuario",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16),
-              ),
-            ),
-            listTileMenu("Perfil", Icon(Icons.account_box, color: Colors.pink, size: 30), ProfileScreen(user: widget.user!)),
-            //listTileMenu("Pedidos", Icon(Icons.confirmation_num, color: Colors.pink, size: 30)),
-            //listTileMenu("Favoritos", Icon(Icons.favorite, color: Colors.pink, size: 30)),
-            listTileMenu("Configurações", Icon(Icons.settings, color: Colors.pink, size: 30)),
-            Divider(height: 2, thickness: 3),
-            listTileMenu("Sair", Icon(Icons.logout, color: Colors.pink, size: 30), HomeScreen()),
-          ],
-        )),
+                Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text("Powered by:", style: TextStyle(fontSize: 18, color: Colors.grey.shade600),),
+                      Text("Group Papaleguas", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: COLOR_BUTTON),),
+                      Text("Version: 1.0.0", style: TextStyle(fontSize: 16, color: Colors.grey.shade600),),
+                      SizedBox(height: 30),
+                    ],
+                  ),
+                ),
+              ],
+            )
+        ),
         bottomNavigationBar: BottomAppBar(
           child: Container(
             padding: EdgeInsets.all(10),
@@ -98,7 +117,9 @@ class _EnterpriseListScreenState extends State<EnterpriseListScreen> {
                           ", " +
                           widget.user!.address.district +
                           "\n" +
-                          widget.user!.address.city + "-" + widget.user!.address.state
+                          widget.user!.address.city +
+                          "-" +
+                          widget.user!.address.state
                       : "Endereço do usuario",
                   style: TextStyle(
                       color: Colors.white,

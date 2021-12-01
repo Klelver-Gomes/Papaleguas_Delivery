@@ -33,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Perfil"),
         ),
         body: SafeArea(

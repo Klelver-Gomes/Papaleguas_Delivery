@@ -26,6 +26,7 @@ class _ProductScreenState extends State<ProductScreen> {
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Detalhes do ítem"),
         ),
         body: Stack(

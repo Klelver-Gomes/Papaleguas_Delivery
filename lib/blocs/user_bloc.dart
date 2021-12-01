@@ -12,8 +12,7 @@ class UserBloc {
   static TextEditingController controllerPhone = TextEditingController();
   static TextEditingController controllerEmail = TextEditingController();
   static TextEditingController controllerPassword = TextEditingController();
-  static TextEditingController controllerConfirmPassword =
-      TextEditingController();
+  static TextEditingController controllerConfirmPassword = TextEditingController();
 
   static final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 

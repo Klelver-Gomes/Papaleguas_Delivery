@@ -101,6 +101,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
       onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text('Cadastro'),
         ),
         key: _scaffoldKey,

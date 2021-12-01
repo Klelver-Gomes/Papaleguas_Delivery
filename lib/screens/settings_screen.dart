@@ -11,7 +11,6 @@ class SettingsScreen extends StatefulWidget {
   SettingsScreen({required this.user});
 
 
-
   @override
   _SettingsScreenState createState() => _SettingsScreenState();
 }
@@ -19,12 +18,14 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   final GlobalKey<FormState> userBlocState = GlobalKey<FormState>();
 
-  FocusNode _focusEmail = FocusNode();
-  FocusNode _focusPassword = FocusNode();
-  FocusNode _focusConfirmPassword = FocusNode();
+  bool _showNewPassword = false;
+  bool _showNewPasswordConfirm = false;
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  bool _showTextFields = false;
 
-  bool _showPassword = false;
-  bool _showPasswordConfirm = false;
+  TextEditingController controllerOldPassword = TextEditingController();
+  TextEditingController controllerNewPassword = TextEditingController();
+  TextEditingController controllerNewConfirmPassword = TextEditingController();
 
 
   @override
@@ -35,6 +36,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
       },
       child: Scaffold(
         appBar: AppBar(
+          centerTitle: true,
           title: Text("Configurações"),
         ),
         body: SafeArea(
@@ -45,31 +47,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                "Dados da Conta",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              IconButton(
-                                  icon: Icon(Icons.edit, color: COLOR_BUTTON),
-                                  onPressed: () {
-                                    setState(() {
-
-                                    });
-                                  },
-                                  tooltip: 'Editar',
-                                  constraints: BoxConstraints(maxWidth: 30)),
-                            ],
+                          child: Text(
+                            "Minha Conta",
+                            style: TextStyle(
+                              fontSize: 25,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
+                        SizedBox(height: 15),
                         TextField(
                           textInputAction: TextInputAction.go,
                           controller:
@@ -83,8 +73,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         SizedBox(height: 10),
                         TextField(
                           textInputAction: TextInputAction.go,
+                          obscureText: true,
                           controller:
-                          TextEditingController(text: widget.user.phone),
+                          TextEditingController(text: widget.user.password),
                           decoration: InputDecoration(
                               enabled: false,
                               labelText: "Senha",
@@ -95,17 +86,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                AppComponent.defaultButton(
-                  text: 'Salvar',
-                  colorButton: COLOR_BUTTON,
-                  function: () async {
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text('Salvo com sucesso'),
-                        backgroundColor: Colors.green));
-                    await Future.delayed(Duration(seconds: 1));
-                    Navigator.pop(context);
-                  },
-                ),
+                Visibility(child: textFieldsAccount(), visible: _showTextFields),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: !_showTextFields? MainAxisAlignment.center: MainAxisAlignment.spaceAround,
+                  children: [
+                    Visibility(
+                      visible: _showTextFields,
+                      child: AppComponent.defaultButton(
+                        text: 'Salvar',
+                        colorButton: COLOR_BUTTON,
+                        function: () async {
+                          if(_formKey.currentState!.validate()){
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Salvo com sucesso'),
+                                backgroundColor: Colors.green));
+                            await Future.delayed(Duration(seconds: 1));
+                            Navigator.pop(context);
+                          }
+                        },
+                      ),
+                    ),
+                    AppComponent.defaultButton(
+                      text: _showTextFields? 'Cancelar': 'Alterar senha',
+                      colorButton: _showTextFields? Colors.red: COLOR_BUTTON,
+                      function: () async {
+                        setState(() {
+                          _showTextFields = !_showTextFields;
+                        });
+                      },
+                    ),
+                  ],
+                )
               ],
             ),
           ),
@@ -118,61 +130,27 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   Widget textFieldsAccount(){
     return Form(
-      key: widget.formKey,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: TextFormField(
-              focusNode: _focusEmail,
-              textInputAction: TextInputAction.go,
-              controller: UserBloc.controllerEmail,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                  labelText: "Email:",
-                  icon: Icon(Icons.email),
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.yellow))),
-              validator: (value) {
-                if (value != null && value.isEmpty) {
-                  //print("valorrr: " + value);
-                  return "Campo obrigatório*";
-                } else if (value != null && !value.contains("@") ||
-                    value != null && !value.contains(".com")) {
-                  return "E-mail inválido*";
-                } else {
-                  //print("valor: " + value);
-                  return null;
-                }
-              },
-              onFieldSubmitted: (value) {
-                FocusScope.of(context).requestFocus(_focusPassword);
-              },
+      key: _formKey,
+      child: Container(
+        margin: EdgeInsets.only(top: 20, left: 20, right: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Alterar senha",
+              style: TextStyle(
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15),
-            child: TextFormField(
-              focusNode: _focusPassword,
-              textInputAction: TextInputAction.go,
-              controller: UserBloc.controllerPassword,
+            SizedBox(height: 15),
+            TextFormField(
+              controller: controllerOldPassword,
               keyboardType: TextInputType.text,
-              obscureText: _showPassword == false ? true : false,
+              obscureText: true,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.yellow)),
-                  labelText: "Senha:",
-                  icon: Icon(Icons.lock),
-                  suffixIcon: GestureDetector(
-                    child: Icon(_showPassword == false
-                        ? Icons.visibility_off
-                        : Icons.visibility),
-                    onTap: () {
-                      setState(() {
-                        _showPassword = !_showPassword;
-                      });
-                    },
-                  )),
+                  labelText: "Senha antiga:",
+                  border: OutlineInputBorder()),
               validator: (value) {
                 if (value != null && value.isEmpty) {
                   return "Campo obrigatório*";
@@ -185,30 +163,23 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   return null;
                 }
               },
-              onFieldSubmitted: (value) {
-                FocusScope.of(context).requestFocus(_focusConfirmPassword);
-              },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(top: 15, bottom: 10),
-            child: TextFormField(
-              focusNode: _focusConfirmPassword,
-              controller: UserBloc.controllerConfirmPassword,
+            SizedBox(height: 10),
+            TextFormField(
+              controller: controllerNewPassword,
               keyboardType: TextInputType.text,
-              obscureText: _showPasswordConfirm == false ? true : false,
+              obscureText: _showNewPassword == false ? true : false,
               decoration: InputDecoration(
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.yellow)),
-                  icon: Icon(Icons.lock),
-                  labelText: "Confirme a senha:",
+                  labelText: "Senha nova:",
                   suffixIcon: GestureDetector(
-                    child: Icon(_showPasswordConfirm == false
+                    child: Icon(_showNewPassword == false
                         ? Icons.visibility_off
                         : Icons.visibility),
                     onTap: () {
                       setState(() {
-                        _showPasswordConfirm = !_showPasswordConfirm;
+                        _showNewPassword = !_showNewPassword;
                       });
                     },
                   )),
@@ -225,8 +196,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 }
               },
             ),
-          ),
-        ],
+            SizedBox(height: 10),
+            TextFormField(
+              controller: controllerNewConfirmPassword,
+              keyboardType: TextInputType.text,
+              obscureText: _showNewPasswordConfirm == false ? true : false,
+              decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.yellow)),
+                  labelText: "Confirme a nova senha:",
+                  suffixIcon: GestureDetector(
+                    child: Icon(_showNewPasswordConfirm == false
+                        ? Icons.visibility_off
+                        : Icons.visibility),
+                    onTap: () {
+                      setState(() {
+                        _showNewPasswordConfirm = !_showNewPasswordConfirm;
+                      });
+                    },
+                  )),
+              validator: (value) {
+                if (value != null && value.isEmpty) {
+                  return "Campo obrigatório*";
+                } else if (value != null && value.length < 8) {
+                  return "Senha deve conter pelo menos 8 caracteres*";
+                } else if (value != null && value.contains(" ")) {
+                  return "Senha não pode conter espaços*";
+                } else {
+                  //print("valor: " + value);
+                  return null;
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
