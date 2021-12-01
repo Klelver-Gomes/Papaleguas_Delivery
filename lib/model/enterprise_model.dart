@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:papaleguas_delivery/model/product_model.dart';
+import 'package:papaleguas_delivery/model/request_model.dart';
 
 class Enterprise {
   late String _name;
@@ -14,7 +15,8 @@ class Enterprise {
   late double _valueDelivery;
   late String _timeDelivery;
   late double _requestMin;
-  //late List<Map<String, dynamic>> _listProducts;
+  final List<RequestModel> _listRequest = [];
+  late List<Product> _listProducts;
 
   Enterprise({
     required String name,
@@ -27,7 +29,7 @@ class Enterprise {
     required double valueDelivery,
     required String timeDelivery,
     required double requestMin,
-   // required List<Map<String, dynamic>> products,
+    List<Product>? listProduct,
 
   }) {
     this._name = name;
@@ -40,7 +42,7 @@ class Enterprise {
     this._valueDelivery = valueDelivery;
     this._timeDelivery = timeDelivery;
     this._requestMin = requestMin;
-    //this._listProducts = products;
+    this._listProducts = listProducts;
   }
 
   String get name => _name;
@@ -73,6 +75,12 @@ class Enterprise {
   String get timeDelivery => _timeDelivery;
   set timeDelivery(String value) => _timeDelivery = value;
 
+  List<RequestModel> get listRequest => _listRequest;
+
+  List<Product> get listProducts => _listProducts;
+  set listProducts(List<Product> value) => _listProducts = value;
+
+
   bool getDiffHour(){
     int hour = int.parse(this.hourCloser.split(":")[0]);
     int minute = int.parse(this.hourCloser.split(":")[1]);
@@ -84,8 +92,6 @@ class Enterprise {
     return false;
   }
 
-  // List<Map<String, dynamic>> get listProducts => _listProducts;
-  // set listProducts(List<Map<String, dynamic>> value) => _listProducts = value;
 
 
   factory Enterprise.fromJson(Map<String, dynamic> json) {
@@ -101,7 +107,7 @@ class Enterprise {
       valueDelivery: json['valueDelivery'],
       timeDelivery: json['timeDelivery'],
       requestMin: json['requestMin'],
-      //products: json['products'],
+      listProduct: json['listProduct'],
     );
   }
 
