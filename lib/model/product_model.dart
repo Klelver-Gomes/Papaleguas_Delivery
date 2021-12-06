@@ -36,13 +36,22 @@ class Product {
 
 
   factory Product.fromJson(Map<String, dynamic> json) {
+    //print(json['name'].toString() + " " + json['price'].toString() + " " + json['description'].toString() + " " + json['imageName'].toString());
     return Product(
-      nome: json['name'],
-      price: json['price'],
-      description: json['description'],
-      imageName: json['imageName'],
-
+      nome: json['name'].toString(),
+      price: double.parse(json['price'].toString()),
+      description: json['description'].toString(),
+      imageName: json['imageName'].toString(),
     );
+  }
+
+  Map<String, dynamic> toJson(Product product) {
+    return {
+      "name": product.name,
+      "price": product.price,
+      "description": product.description,
+      "imageName": product.imageName,
+    };
   }
 
 }

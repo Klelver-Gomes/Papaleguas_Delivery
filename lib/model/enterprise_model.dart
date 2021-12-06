@@ -15,7 +15,7 @@ class Enterprise {
   late double _valueDelivery;
   late String _timeDelivery;
   late double _requestMin;
-  final List<RequestModel> _listRequest = [];
+  final List<Request> _listRequest = [];
   late List<Product> _listProducts;
 
   Enterprise({
@@ -42,7 +42,7 @@ class Enterprise {
     this._valueDelivery = valueDelivery;
     this._timeDelivery = timeDelivery;
     this._requestMin = requestMin;
-    this._listProducts = listProducts;
+    this._listProducts = listProduct?? [];
   }
 
   String get name => _name;
@@ -75,7 +75,7 @@ class Enterprise {
   String get timeDelivery => _timeDelivery;
   set timeDelivery(String value) => _timeDelivery = value;
 
-  List<RequestModel> get listRequest => _listRequest;
+  List<Request> get listRequest => _listRequest;
 
   List<Product> get listProducts => _listProducts;
   set listProducts(List<Product> value) => _listProducts = value;
@@ -94,22 +94,20 @@ class Enterprise {
 
 
 
-  factory Enterprise.fromJson(Map<String, dynamic> json) {
-    // print(json['products'].toString());
+  factory Enterprise.fromJson(Map<String, dynamic>? json) {
+    //print(json?['products'].toString());
     return Enterprise(
-      name: json['name'],
-      category: json['category'],
-      description: json['description'],
-      imageName: json['imageName'],
-      status: json['status'],
-      hourCloser: json['hourCloser'],
-      avaliation: json['avaliation'],
-      valueDelivery: json['valueDelivery'],
-      timeDelivery: json['timeDelivery'],
-      requestMin: json['requestMin'],
-      listProduct: json['listProduct'],
+      name: json != null ? json['name'].toString(): "",
+      category: json != null ? json['category'].toString(): "",
+      description: json != null ? json['description'].toString(): "",
+      imageName: json != null ? json['imageName'].toString(): "",
+      status: json != null ? json['status'].toString(): "",
+      hourCloser: json != null ? json['hourCloser'].toString(): "",
+      avaliation: json != null ? double.parse(json['avaliation'].toString()): 0,
+      valueDelivery: json != null ? double.parse(json['valueDelivery'].toString()): 0,
+      timeDelivery: json != null ? json['timeDelivery'].toString(): "",
+      requestMin: json != null ? double.parse(json['requestMin'].toString()): 0,
+      listProduct: json != null ? json['products']: [],
     );
   }
-
-
 }

@@ -1,12 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:papaleguas_delivery/screens/home_screen.dart';
+import 'package:papaleguas_delivery/screens/login_screen.dart';
 
 import 'blocs/cart_bloc.dart';
 import 'blocs/enteprise_bloc.dart';
+import 'blocs/request_bloc.dart';
 import 'model/util_model.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -17,7 +22,8 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider (
       providers: [
         BlocProvider(create: (context) => CartBloc(),),
-        BlocProvider(create: (context) => EnterpriseBloc(),)
+        BlocProvider(create: (context) => EnterpriseBloc(),),
+        BlocProvider(create: (context) => RequestBloc(),)
       ],
       child: MaterialApp(
         title: 'Papaléguas Delivery',
@@ -26,7 +32,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.indigo,
             visualDensity: VisualDensity.adaptivePlatformDensity,
             iconTheme: IconThemeData(color: COLOR_ICON)),
-        home: HomeScreen(),
+        home: LoginScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );

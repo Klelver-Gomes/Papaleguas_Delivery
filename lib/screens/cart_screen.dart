@@ -2,26 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:papaleguas_delivery/blocs/cart_bloc.dart';
+import 'package:papaleguas_delivery/blocs/request_bloc.dart';
 import 'package:papaleguas_delivery/components/app_component.dart';
 import 'package:papaleguas_delivery/components/product_tile_cart.dart';
 import 'package:papaleguas_delivery/model/enterprise_model.dart';
 import 'package:papaleguas_delivery/model/product_model.dart';
+import 'package:papaleguas_delivery/model/request_model.dart';
+import 'package:papaleguas_delivery/model/user_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
+import 'package:papaleguas_delivery/screens/request_screen.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({Key? key}) : super(key: key);
-
-  // Product product;
-  // CartScreen({required this.product});
+  //const CartScreen({Key? key}) : super(key: key);
+  Enterprise enterprise;
+  UserModel? userModel;
+  CartScreen({this.userModel, required this.enterprise});
 
   @override
   _CartScreenState createState() => _CartScreenState();
 }
 
 class _CartScreenState extends State<CartScreen> {
-  late num total = 0;
+  late double total = 0;
   String optionSelected = 'entrega';
-  num valorEntrega = 5;
+  double valorEntrega = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -38,14 +42,9 @@ class _CartScreenState extends State<CartScreen> {
       builder: (context, state) {
         if (state.isNotEmpty) {
           if (optionSelected == 'entrega') {
-            total = valorEntrega +
-                state
-                    .map((e) => e.price * e.qtd)
-                    .reduce((value, element) => value + element);
+            total = valorEntrega + state.map((e) => e.price * e.qtd).reduce((value, element) => value + element);
           } else {
-            total = state
-                .map((e) => e.price * e.qtd)
-                .reduce((value, element) => value + element);
+            total = state.map((e) => e.price * e.qtd).reduce((value, element) => value + element);
           }
         }
         return Column(
@@ -210,10 +209,17 @@ class _CartScreenState extends State<CartScreen> {
                   SizedBox(width: 10),
                   ElevatedButton(
                       onPressed: () async {
+
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            duration: Duration(seconds: 1),
-                            content: Text('Pedido realizado!!!', style: TextStyle(fontSize: 25)),
+                            duration: Duration(seconds: 2),
+                            content: Text('Pedido realizado!!!', style: TextStyle(fontSize: 21)),
                             backgroundColor: Colors.green));
+                        List<Product>? listProducts = BlocProvider.of<CartBloc>(context).state;
+                        print(listProducts.toString());
+                        Request request = new Request(products: listProducts, valueTotal: total, user: widget.userModel, enterprise: widget.enterprise);
+                        await BlocProvider.of<RequestBloc>(context).createRequest(request: request);
+                        BlocProvider.of<CartBloc>(context).clearListProduct();
+                        Navigator.pop(context);
                       },
                       style: ButtonStyle(
                           padding: MaterialStateProperty.all<EdgeInsetsGeometry>(EdgeInsets.only(

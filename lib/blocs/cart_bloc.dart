@@ -17,4 +17,9 @@ class CartBloc extends Cubit<List<Product>> {
   List<Product> getAll({required Product product}) {
     return state;
   }
+
+  void clearListProduct() {
+    state.clear();
+    emit(List.from(state));
+  }
 }

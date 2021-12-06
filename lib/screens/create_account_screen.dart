@@ -8,8 +8,9 @@ import 'package:papaleguas_delivery/components/app_component.dart';
 import 'package:papaleguas_delivery/components/textFieldsAccount.dart';
 import 'package:papaleguas_delivery/components/textFieldsAddress.dart';
 import 'package:papaleguas_delivery/components/textFieldsUser.dart';
+import 'package:papaleguas_delivery/model/user_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
-import 'package:papaleguas_delivery/screens/enterprise_list_screen.dart';
+import 'package:papaleguas_delivery/screens/home_screen.dart';
 
 import 'address_screen.dart';
 
@@ -113,19 +114,19 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
             final bool isLastStep = _currentStep == _getSteps().length - 1;
             if ((userBlocState.currentState != null && userBlocState.currentState!.validate()) ||
                 (addressBlocState.currentState != null && addressBlocState.currentState!.validate())) {
-              print(_currentStep.toString());
+              //print(_currentStep.toString());
               if (!isLastStep) {
                 setState(() => _currentStep++);
               } else {
                 setState(() => _isLoading = true);
                 await Future.delayed(Duration(seconds: 2)).then((value) async {
                   setState(() => _isLoading = false);
+                  await UserBloc().confirmRegister();
                   await AppComponent.showAlertMensage(
                       text: 'Cadastro realizado com sucesso', context: context);
                   Navigator.pushReplacement(
                     context,
-                    CupertinoPageRoute(
-                      builder: (context) => EnterpriseListScreen(),
+                    CupertinoPageRoute(builder: (context) => HomeScreen(),
                     ),
                   );
                 });
@@ -167,11 +168,13 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   List<Step> _getSteps() {
     return <Step>[
       Step(
+        state: _currentStep > 0 ? StepState.complete: StepState.indexed,
         isActive: _currentStep >= 0,
         title: Text('Dados Pessoais'),
         content: TextFieldsUser(this.userBlocState),
       ),
       Step(
+        state: _currentStep > 1 ? StepState.complete: StepState.indexed,
         isActive: _currentStep >= 1,
         title: Text('Endereço'),
         content: TextFieldsAddress(this.addressBlocState),

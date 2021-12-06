@@ -5,7 +5,9 @@ import 'package:papaleguas_delivery/blocs/cart_bloc.dart';
 import 'package:papaleguas_delivery/components/product_tile.dart';
 import 'package:papaleguas_delivery/model/enterprise_model.dart';
 import 'package:papaleguas_delivery/model/product_model.dart';
+import 'package:papaleguas_delivery/model/user_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
+import 'package:papaleguas_delivery/services/enterprise_service.dart';
 import 'package:papaleguas_delivery/services/product_service.dart';
 
 import 'cart_screen.dart';
@@ -13,14 +15,17 @@ import 'cart_screen.dart';
 class EnterpriseScreen extends StatefulWidget {
   //const EnterpriseScreen({Key? key}) : super(key: key);
   Enterprise enterprise;
-
-  EnterpriseScreen({required this.enterprise});
+  UserModel? userModel;
+  EnterpriseScreen({required this.enterprise, this.userModel});
 
   @override
   _EnterpriseScreenState createState() => _EnterpriseScreenState();
 }
 
 class _EnterpriseScreenState extends State<EnterpriseScreen> {
+  bool _favorite = false;
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,27 +70,47 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
                                     fontWeight: FontWeight.bold,
                                     color: widget.enterprise.getDiffHour()? Colors.red: Colors.green),
                               ),
-
-                              Icon(Icons.favorite_border,
-                                  color: Colors.red, size: 40),
+                              IconButton(onPressed: (){
+                                  setState(() {
+                                    _favorite = !_favorite;
+                                    _favorite? ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        duration: Duration(seconds: 2),
+                                        content: Text('Adicionado aos favoritos!!!', style: TextStyle(fontSize: 21)),
+                                        backgroundColor: Colors.green)): ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                        duration: Duration(seconds: 2),
+                                        content: Text('Removido dos favoritos!!!', style: TextStyle(fontSize: 21)),
+                                        backgroundColor: Colors.green));
+                                  });
+                                },
+                                icon: _favorite? Icon(Icons.favorite_outlined,
+                                    color: Colors.red, size: 40): Icon(Icons.favorite_border,
+                                    color: Colors.red, size: 40)),
                             ],
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                'Encerra às: ' + widget.enterprise.hourCloser,
-                                style: TextStyle(fontSize: 18),
+                              Row(
+                                children: [
+                                  Text(
+                                    'Encerra às:  ',
+                                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  ),
+                                  Text(
+                                    widget.enterprise.hourCloser,
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ],
                               ),
                               Row(
                                 children: [
                                   Icon(
                                     Icons.star,
                                     color: Colors.yellow.shade700,
+                                    //size: 30,
                                   ),
                                   Text(
-                                    widget.enterprise.avaliation
-                                        .toStringAsFixed(1),
+                                    widget.enterprise.avaliation.toStringAsFixed(1),
                                     style: TextStyle(
                                         fontSize: 18,
                                         color: Colors.yellow.shade700,
@@ -96,19 +121,32 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
                             ],
                           ),
                           Divider(height: 3, thickness: 2),
-                          Text(
-                            'Pedido Minimo:  R\$' +
-                                widget.enterprise.requestMin.toStringAsFixed(2),
-                            style: TextStyle(fontSize: 18),
+                          Row(
+                            children: [
+                              Text(
+                                'Pedido Minimo:  ',
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'R\$' + widget.enterprise.requestMin.toStringAsFixed(2),
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
                           ),
                           Divider(height: 3, thickness: 2),
-                          Text(
-                            'Entrega:  R\$' +
-                                widget.enterprise.valueDelivery
-                                    .toStringAsFixed(2) +
-                                "  -  " +
-                                widget.enterprise.timeDelivery,
-                            style: TextStyle(fontSize: 18),
+                          Row(
+                            children: [
+                              Text(
+                                'Entrega:  ',
+                                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              ),
+                              Text(
+                                'R\$' + widget.enterprise.valueDelivery.toStringAsFixed(2) +
+                                    "  -  " +
+                                    widget.enterprise.timeDelivery,
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ],
                           ),
                           Divider(height: 3, thickness: 2),
                         ],
@@ -119,25 +157,14 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
               ),
             ),
             Expanded(
-                child: FutureBuilder<List<Product>>(
-              future: ProductService.getProducts(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.separated(
-                      separatorBuilder: (context, index) =>
-                          Divider(height: 2, thickness: 2),
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        Product product = snapshot.data![index];
-                        return ProductTile(product: product);
-                      });
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ))
+                child: ListView.separated(
+                    separatorBuilder: (context, index) =>
+                        Divider(height: 2, thickness: 2),
+                    itemCount: widget.enterprise.listProducts.length,
+                    itemBuilder: (context, index) {
+                      Product product = widget.enterprise.listProducts[index];
+                      return ProductTile(product: product);
+                    })),
           ],
         ),
       ),
@@ -149,7 +176,7 @@ class _EnterpriseScreenState extends State<EnterpriseScreen> {
             child: FloatingActionButton(
                 onPressed: () {
                   Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => CartScreen()));
+                      CupertinoPageRoute(builder: (context) => CartScreen(userModel: widget.userModel,enterprise: widget.enterprise)));
                 },
                 child: Icon(Icons.shopping_cart)),
           ),

@@ -4,40 +4,23 @@ import 'package:papaleguas_delivery/model/product_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
 import 'package:papaleguas_delivery/screens/product_screen.dart';
 
-class ProductTile extends StatefulWidget {
+class ProductTileRequest extends StatefulWidget {
   Product product;
-  ProductTile({required this.product});
+  ProductTileRequest({required this.product});
 
   @override
-  _ProductTileState createState() => _ProductTileState();
+  _ProductTileRequestState createState() => _ProductTileRequestState();
 }
 
-class _ProductTileState extends State<ProductTile> {
-  int _count = 0;
+class _ProductTileRequestState extends State<ProductTileRequest> {
 
   @override
   Widget build(BuildContext context) {
-    return productTile();
+    return productTileRequest();
   }
 
-  Widget productTile() {
+  Widget productTileRequest() {
     return ListTile(
-      onTap: () {
-        Navigator.push(context, CupertinoPageRoute(builder: (context) => ProductScreen(product: widget.product)));
-      },
-      leading: Container(
-        width: 60,
-        height: 60,
-        child: ClipRRect(
-          clipBehavior: Clip.antiAlias,
-          borderRadius: BorderRadius.circular(16),
-          child: widget.product.imageName.contains('http')? Image.network(widget.product.imageName, fit: BoxFit.cover):
-          Image.asset(
-            'assets/image/papa_leguas.png',
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
       title: Text(widget.product.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.black),),
       subtitle: Text(widget.product.description, style: TextStyle(fontSize: 16),),
       trailing: Wrap(
@@ -49,10 +32,8 @@ class _ProductTileState extends State<ProductTile> {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: COLOR_BUTTON),
           ),
           Icon(Icons.arrow_right_outlined, color: COLOR_BUTTON),
-
         ],
       ),
     );
-    Divider(height: 2);
   }
 }

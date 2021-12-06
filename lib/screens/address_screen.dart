@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:papaleguas_delivery/blocs/address_bloc.dart';
 import 'package:papaleguas_delivery/components/textFieldsAddress.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
-import 'package:papaleguas_delivery/screens/enterprise_list_screen.dart';
+import 'package:papaleguas_delivery/screens/home_screen.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({Key? key}) : super(key: key);
@@ -46,7 +46,7 @@ class _AddressScreenState extends State<AddressScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => EnterpriseListScreen(),
+                                builder: (context) => HomeScreen(),
                               ),
                             ); //Verificar como vai ser cadastrado esses dados no banco
                           //}

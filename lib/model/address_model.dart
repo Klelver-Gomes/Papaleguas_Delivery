@@ -1,11 +1,11 @@
-class AddressModel {
+class Address {
   late String _city;
   late String _street;
   late String _district;
   late int _number;
   late String _state;
 
-  AddressModel({
+  Address({
     String? city,
     String? street,
     String? district,
@@ -19,6 +19,12 @@ class AddressModel {
     this._district = district ?? "";
     this._number = number ?? 0;
     this._state = state ?? "";
+  }
+
+
+  @override
+  String toString() {
+    return 'Address{_city: $_city, _street: $_street, _district: $_district, _number: $_number, _state: $_state}';
   }
 
   String get city => _city;
@@ -36,4 +42,13 @@ class AddressModel {
   String get state => _state;
   set state(String value) => _state = value;
 
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      city: json['city'],
+      street: json['street'],
+      district: json['district'],
+      number: json['number'],
+      state: json['state'],
+    );
+  }
 }

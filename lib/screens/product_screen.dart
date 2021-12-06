@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:papaleguas_delivery/blocs/cart_bloc.dart';
 import 'package:papaleguas_delivery/model/product_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import 'cart_screen.dart';
 
@@ -30,7 +29,6 @@ class _ProductScreenState extends State<ProductScreen> {
           title: Text("Detalhes do ítem"),
         ),
         body: Stack(
-          //mainAxisSize: MainAxisSize.max,
           children: [
             Align(
               alignment: Alignment.bottomCenter,
@@ -46,8 +44,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     Row(
                       children: [
                         InkWell(
-                            child:
-                            Icon(Icons.add_box, color: COLOR_BUTTON, size: 45),
+                            child: Icon(Icons.add_box, color: COLOR_BUTTON, size: 45),
                             onTap: () {
                               setState(() {
                                 _count++;
@@ -73,12 +70,11 @@ class _ProductScreenState extends State<ProductScreen> {
                         ),
                       ],
                     ),
-
                     ElevatedButton(
                         onPressed: () async {
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               duration: Duration(seconds: 2),
-                              content: Text('Produto adicionado ao carrinho...', style: TextStyle(fontSize: 25),),
+                              content: Text('Produto adicionado ao carrinho...', style: TextStyle(fontSize: 21),),
                               backgroundColor: Colors.green));
                           widget.product.qtd = _count;
                           BlocProvider.of<CartBloc>(context).addProduct(product: widget.product);
@@ -96,7 +92,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         child: Text('ADICIONAR   -   ' + 'R\$' + (widget.product.price*_count).toStringAsFixed(2),
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
-                                fontSize: 24,
+                                fontSize: 21,
                                 color: Colors.white,))),
                   ],
                 ),
@@ -110,8 +106,10 @@ class _ProductScreenState extends State<ProductScreen> {
               right: 0,
               child: Column(
                 children: [
-                  Image.asset('assets/image/papa_leguas.png',
-                      height: 200, width: 200, fit: BoxFit.fill),
+                  widget.product.imageName.contains('http')? Image.network(widget.product.imageName, height: 200, width: double.infinity, fit: BoxFit.fill):
+                  Image.asset(widget.product.imageName,
+                      height: 200, width: double.infinity, fit: BoxFit.fill),
+                  SizedBox(height: 20),
                   Text(
                     widget.product.name,
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
@@ -119,6 +117,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   Text(
                     widget.product.description,
                     style: TextStyle(fontSize: 20),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 10),
                   Text(

@@ -47,7 +47,7 @@ class _ProductTileCartState extends State<ProductTileCart> {
           }, tooltip: 'Remover', constraints: BoxConstraints(maxWidth: 30),
           ),
           IconButton(icon: Icon(Icons.edit, color: COLOR_BUTTON), onPressed: (){
-            BlocProvider.of<CartBloc>(context).removeProduct(product: widget.product);
+            //BlocProvider.of<CartBloc>(context).removeProduct(product: widget.product);
           }, tooltip: 'Editar', constraints: BoxConstraints(maxWidth: 30)),
         ],
       ),
