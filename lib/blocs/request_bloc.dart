@@ -36,15 +36,34 @@ class RequestBloc extends Cubit<List<Request>> {
       "id": docRef.id.toString(),
       "valueTotal": request.valueTotal,
       "products": jsonEncode(jsonProducts),
+      "enterprise": request.enterprise.name,
     });
   }
 
-  // Future<List<Request>> getRequestUser({Request? request, required UserModel userModel}) async {
-  //     CollectionReference collectionRequest = FirebaseFirestore.instance.collection('requests');
-  //     QuerySnapshot<Map<String, dynamic>> docRequest = await collectionRequest.doc(userModel.email).collection('China Mania').get();
-  //     List<QueryDocumentSnapshot<Map<String, dynamic>>> doc = docRequest.docs;
-  //     doc.map((e) => Request.fromJson(e.data())).toList();
-  //
-  //   return state;
-  // }
+  Future<List<Request>> getRequests({required String email}) async {
+    QuerySnapshot getRequests = await FirebaseFirestore.instance.collection('Requests').get();
+
+    List<Request> listRequests = [];
+    List<String> listNameEnterprises = [];
+    List<QueryDocumentSnapshot> snapshot = getRequests.docs;
+
+    CollectionReference getEnterprise = FirebaseFirestore.instance.collection('enteprises');
+    QuerySnapshot entSnap = await getEnterprise.get();
+
+    for(var nameEnt in entSnap.docs){
+      listNameEnterprises.add(nameEnt.id);
+    }
+    int count = 0;
+
+    for(var doc in snapshot){
+      String nameEnterprise = listNameEnterprises[count];
+      QuerySnapshot<Map<String, dynamic>> getRequest = await FirebaseFirestore.instance.collection('Requests').doc(email).collection(nameEnterprise).get();
+      if(getRequest.docs.isNotEmpty){
+        listRequests.add(Request.fromJson(getRequest.docs[count].data()));
+      }
+
+    }
+    print(listRequests.toString());
+    return listRequests;
+  }
 }

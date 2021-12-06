@@ -38,15 +38,10 @@ class EnterpriseBloc extends Cubit<bool> {
      }
      Map<String, dynamic>? ent = enterprise.data();
      ent?['products'] = listProducts;
-     //print(ent?['products'].toString());
      Enterprise e = Enterprise.fromJson(ent);
      listEnterprises.add(e);
    }
    return listEnterprises;
-
-    // String enterpriseData = await rootBundle.loadString('assets/json/enterprise.json');
-    // List<dynamic> enterprisesData = jsonDecode(enterpriseData);
-    // return enterprisesData.map( (json) => Enterprise.fromJson(json)).toList();
   }
 
   Stream<QuerySnapshot> getListEnterprises() {

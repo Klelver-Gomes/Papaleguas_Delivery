@@ -4,14 +4,14 @@ import 'package:papaleguas_delivery/model/user_model.dart';
 import 'enterprise_model.dart';
 
 class Request {
-  int? _id;
+  String? _id;
   late Enterprise _enterprise;
   UserModel? _user;
   late double _valueTotal;
   late List<Product> _products;
 
   Request({
-    int? id,
+    String? id,
     required Enterprise enterprise,
     UserModel? user,
     required double valueTotal,
@@ -25,8 +25,8 @@ class Request {
     this._products = products;
   }
 
-  int? get id => _id;
-  set id(int? value) => _id = value;
+  String? get id => _id;
+  set id(String? value) => _id = value;
 
   Enterprise get enterprise => _enterprise;
   set enterprise(Enterprise value) =>  _enterprise = value;
@@ -42,11 +42,11 @@ class Request {
 
   factory Request.fromJson(Map<String, dynamic> json) {
     return Request(
-      id: json['id'],
+      id: json['id'].toString(),
       enterprise: json['enterprise'],
       user: json['user'],
-      valueTotal: json['valueTotal'],
-      products: json['products'],
+      valueTotal: double.parse(json['valueTotal'].toString()),
+      products: json['products'].toString()as List<Product>,
     );
   }
 }

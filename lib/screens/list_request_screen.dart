@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:papaleguas_delivery/blocs/request_bloc.dart';
 import 'package:papaleguas_delivery/model/user_model.dart';
 import 'package:papaleguas_delivery/model/util_model.dart';
 
@@ -13,6 +14,14 @@ class ListRequestScreen extends StatefulWidget {
 }
 
 class _ListRequestScreenState extends State<ListRequestScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) async {
+      //await RequestBloc().getRequests(email: 'klelvercz@gmail.com');
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
